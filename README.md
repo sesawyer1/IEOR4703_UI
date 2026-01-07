@@ -1,3 +1,88 @@
+# SETUP INSTRUCTIONS
+
+Before running the app, make sure you download:
+
+- Node.js (v18 or higher)
+
+  Check with:
+
+  ```bash
+  node -v
+  ```
+
+1. Clone the repository
+
+```bash
+  git clone <REPO_URL>
+  cd <REPO_NAME>
+```
+
+2. Install npm
+
+```bash
+npm install
+```
+
+3. Run development server
+
+```bash
+npm run dev
+```
+
+4. Open App
+
+   Copy and paste the local URL into browser
+
+```bash
+http://localhost:5173 //this is an example url
+```
+
+## Github Workflow Notes
+
+DO NOT WORK DIRECTLY ON MAIN
+
+1. Create a new local branch before starting edits
+
+```bash
+git checkout -b your-branch-name
+```
+
+2. Make edits/test locally, run the code using the following and verify changes work
+
+```bash
+npm run dev
+```
+
+3. Commit changes
+
+```bash
+git add .
+git commit -m "MESSAGE DESCRIBING CHANGES"
+```
+
+4. Push your branch to Github
+
+```bash
+git push origin your-branch-name
+```
+
+5. To open a pull request:
+
+   a. Click "Compare & pull request" in Github repo
+
+   b. Open a PR from your branch --> main
+
+   c. add description of changes
+
+6. if main changes while you're working:
+
+```bash
+git checkout main
+git pull origin main
+git checkout your-branch-name
+git merge main
+```
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -17,9 +102,9 @@ If you are developing a production application, we recommend updating the config
 
 ```js
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       // Other configs...
 
@@ -34,40 +119,40 @@ export default defineConfig([
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
     },
   },
-])
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from "eslint-plugin-react-x";
+import reactDom from "eslint-plugin-react-dom";
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       // Other configs...
       // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
+      reactX.configs["recommended-typescript"],
       // Enable lint rules for React DOM
       reactDom.configs.recommended,
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
     },
   },
-])
+]);
 ```
