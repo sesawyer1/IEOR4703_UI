@@ -9,14 +9,14 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
 import ChapterLoop from "./chapter-loop";
-import type { Chapter, ChapterFile } from "../data.type";
+import type { Chapter, ContentFile } from "../data.type";
 import ListItemIcon from "@mui/material/ListItemIcon";
 
 const renderFiles = (
-  files: ChapterFile[] | undefined,
+  files: ContentFile[] | undefined,
   depth: number,
   parentKey: string,
-  setSelectedFile: (file: ChapterFile) => void
+  onFileClick: (file: ContentFile) => void
 ) => {
   if (!files?.length) return null;
 
@@ -24,16 +24,21 @@ const renderFiles = (
     <ListItemButton
       key={`${parentKey}/file:${f.name}`}
       sx={{ pl: 2 + depth * 2 }}
-      onClick={() => {
-        setSelectedFile(f);
-      }}
+      onClick={() => onFileClick(f)}
     >
       <ListItemIcon>
         <InsertDriveFileIcon />
       </ListItemIcon>
       <ListItemText
         primary={f.name}
-        secondary={`${f.type} • ${f.size} bytes`}
+        secondary={f.ext}
+        primaryTypographyProps={{
+          sx: {
+            whiteSpace: "normal",
+            overflowWrap: "anywhere",
+            lineHeight: 1.2,
+          },
+        }}
       />
     </ListItemButton>
   ));

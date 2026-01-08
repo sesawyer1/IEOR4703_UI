@@ -9,17 +9,21 @@ import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
+import FileViewer from "./file-viewer";
 
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { SideBar } from "./side-bar/side-bar";
-import type { ChapterFile } from "./data.type";
-
-const drawerWidth = 320;
+import type { ContentFile } from "./data.type";
+import { buildChapters } from "./content-index";
 
 export default function App() {
+  const chapters = buildChapters();
+  console.log("chapters:", chapters);
+  const [sidebarWidth, setSidebarWidth] = useState(320);
+
   const [openMap, setOpenMap] = useState<Record<string, boolean>>({});
 
   const toggle = (key: string) => {
@@ -30,12 +34,12 @@ export default function App() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [selectedFile, setSelectedFile] = useState<ChapterFile | null>(null);
+  const [selectedFile, setSelectedFile] = useState<ContentFile | null>(null);
 
   const handleHome = () => {
-    setOpenMap({});        // closes all dropdowns
-    setSearchOpen(false);  // optional: close search bar
-    setSearchQuery("");    // optional: clear search
+    setOpenMap({}); // closes all dropdowns
+    setSearchOpen(false); // optional: close search bar
+    setSearchQuery(""); // optional: clear search
   };
 
   return (
@@ -91,29 +95,75 @@ export default function App() {
       <Drawer
         variant="permanent"
         sx={{
-          width: drawerWidth,
+          width: sidebarWidth,
           flexShrink: 0,
           [`& .MuiDrawer-paper`]: {
-            width: drawerWidth,
+            width: sidebarWidth,
             boxSizing: "border-box",
+            overflowX: "hidden",
           },
         }}
       >
         {/* pushes sidebar content below the AppBar */}
         <Toolbar />
-        <SideBar openMap={openMap} toggle={toggle} setSelectedFile={setSelectedFile} />
+        <SideBar
+          chapters={chapters}
+          openMap={openMap}
+          toggle={toggle}
+          onFileClick={setSelectedFile}
+        />
       </Drawer>
+      <Box
+        sx={{
+          width: 6,
+          cursor: "col-resize",
+          bgcolor: "transparent",
+          "&:hover": { bgcolor: "rgba(0,0,0,0.08)" },
+        }}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          const startX = e.clientX;
+          const startWidth = sidebarWidth;
+
+          const onMove = (ev: MouseEvent) => {
+            const next = Math.min(
+              520,
+              Math.max(240, startWidth + (ev.clientX - startX))
+            );
+            setSidebarWidth(next);
+          };
+
+          const onUp = () => {
+            window.removeEventListener("mousemove", onMove);
+            window.removeEventListener("mouseup", onUp);
+          };
+
+          window.addEventListener("mousemove", onMove);
+          window.addEventListener("mouseup", onUp);
+        }}
+      />
 
       {/* Main content area */}
-      <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
-        {/* pushes main content below the AppBar */}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+
+          // ✅ guarantee main is the "remaining space" next to the Drawer
+          width: `calc(100% - ${sidebarWidth}px)`,
+          ml: `${sidebarWidth}px`,
+        }}
+      >
         <Toolbar />
 
-        {/* Replace this with your routes/pages later */}
-        <div>{selectedFile ? `Selected file: ${selectedFile.name}` : "No file selected"}</div>
-
-        {/* Temporary debug (optional) */}
-        {/* <pre>{JSON.stringify({ searchQuery }, null, 2)}</pre> */}
+        <Box sx={{ maxWidth: 1200, mx: "auto", width: "100%" }}>
+          {selectedFile ? (
+            <FileViewer file={selectedFile} />
+          ) : (
+            <Typography>Select a file from the sidebar.</Typography>
+          )}
+        </Box>
       </Box>
     </Box>
   );

@@ -11,36 +11,30 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import { renderFiles } from "./side-bar.helpers";
-import type { ChapterFile, Folder } from "../data.type";
+import type { ContentFile, ContentFolder } from "../data.type";
 
 type ChapterLoopProps = {
-  name: string;
-  files?: ChapterFile[];
-  subfolders?: Folder[];
+  folder: ContentFolder;
   depth: number;
   nodeKey: string;
   openMap: Record<string, boolean>;
-  selectedFile?: ChapterFile | null;
   toggle: (key: string) => void;
-  setSelectedFile?: (file: ChapterFile) => void;
+  onFileClick: (file: ContentFile) => void;
 };
 
-const ChapterLoop: React.FC<ChapterLoopProps> = ({
-  name,
-  files,
-  subfolders,
+export default function ChapterLoop({
+  folder,
   depth,
   nodeKey,
   openMap,
   toggle,
-  selectedFile,
-  setSelectedFile,
-}) => {
+  onFileClick,
+}: ChapterLoopProps) {
   const hasChildren =
-    (files?.length ?? 0) > 0 || (subfolders?.length ?? 0) > 0;
+    (folder.files?.length ?? 0) > 0 || (folder.folders?.length ?? 0) > 0;
 
   const open = !!openMap[nodeKey];
-  
+
   return (
     <>
       {/* Folder row */}
@@ -52,7 +46,16 @@ const ChapterLoop: React.FC<ChapterLoopProps> = ({
           <FolderIcon />
         </ListItemIcon>
 
-        <ListItemText primary={name} />
+        <ListItemText
+          primary={folder.name}
+          primaryTypographyProps={{
+            sx: {
+              whiteSpace: "normal",
+              overflowWrap: "anywhere",
+              lineHeight: 1.2,
+            },
+          }}
+        />
 
         {hasChildren ? open ? <ExpandLess /> : <ExpandMore /> : null}
       </ListItemButton>
@@ -62,21 +65,18 @@ const ChapterLoop: React.FC<ChapterLoopProps> = ({
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {/* Files */}
-            {renderFiles(files, depth + 1, nodeKey, setSelectedFile!)}
+            {renderFiles(folder.files, depth + 1, nodeKey, onFileClick)}
 
             {/* Subfolders (recursive) */}
-            {(subfolders ?? []).map((folder) => (
+            {(folder.folders ?? []).map((sub) => (
               <ChapterLoop
-                key={`${nodeKey}/folder:${folder.name}`}
-                name={folder.name}
-                files={folder.files}
-                subfolders={folder.subfolders}
+                key={`${nodeKey}/folder:${sub.name}`}
+                folder={sub}
                 depth={depth + 1}
-                nodeKey={`${nodeKey}/folder:${folder.name}`}
+                nodeKey={`${nodeKey}/folder:${sub.name}`}
                 openMap={openMap}
                 toggle={toggle}
-                setSelectedFile={setSelectedFile}
-                selectedFile={selectedFile} 
+                onFileClick={onFileClick}
               />
             ))}
           </List>
@@ -84,11 +84,4 @@ const ChapterLoop: React.FC<ChapterLoopProps> = ({
       )}
     </>
   );
-};
-
-export default ChapterLoop;
-
-
-
-
-
+}

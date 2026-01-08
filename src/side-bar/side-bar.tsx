@@ -9,81 +9,26 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
 import ChapterLoop from "./chapter-loop";
-import type { Chapter, ChapterFile } from "../data.type";
+import type { Chapter, ContentFile } from "../data.type";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import { renderFiles } from "./side-bar.helpers";
 
 type SideBarProps = {
+  chapters: Chapter[];
   openMap: Record<string, boolean>;
   toggle: (key: string) => void;
-  setSelectedFile: (file: ChapterFile) => void;
+  onFileClick: (file: ContentFile) => void;
 };
 
-export const SideBar = ({ openMap, toggle, setSelectedFile }: SideBarProps) => {
-  // TEST DATA
-  const chapters: Chapter[] = [
-    {
-      id: 1,
-      title: "Chapter 1 (files only)",
-      files: [
-        { name: "intro.pdf", size: 120000, type: "pdf" },
-        { name: "notes.md", size: 5200, type: "markdown" },
-      ],
-    },
-    {
-      id: 2,
-      title: "Chapter 2 (folders + nesting)",
-      folders: [
-        {
-          name: "Week 1",
-          files: [{ name: "slides.pptx", size: 2400000, type: "pptx" }],
-          subfolders: [
-            {
-              name: "Readings",
-              files: [
-                { name: "paper1.pdf", size: 900000, type: "pdf" },
-                { name: "paper2.pdf", size: 1100000, type: "pdf" },
-              ],
-              subfolders: [
-                {
-                  name: "Optional",
-                  files: [{ name: "extra.pdf", size: 700000, type: "pdf" }],
-                },
-              ],
-            },
-            {
-              name: "Homework",
-              files: [{ name: "hw1.pdf", size: 80000, type: "pdf" }],
-            },
-          ],
-        },
-        {
-          name: "Week 2 (empty folder)",
-          files: [],
-          subfolders: [],
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: "Chapter 3 (folders only)",
-      folders: [
-        {
-          name: "Project",
-          subfolders: [
-            {
-              name: "Starter Code",
-              files: [{ name: "main.ts", size: 3400, type: "typescript" }],
-            },
-          ],
-        },
-      ],
-    },
-  ];
-
+export const SideBar = ({
+  openMap,
+  toggle,
+  onFileClick,
+  chapters,
+}: SideBarProps) => {
   return (
     <List
-      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+      sx={{ width: "100%", bgcolor: "background.paper" }} // remove maxWidth so Drawer controls width
       component="nav"
       aria-labelledby="nested-list-subheader"
       subheader={
@@ -93,10 +38,12 @@ export const SideBar = ({ openMap, toggle, setSelectedFile }: SideBarProps) => {
       }
     >
       {chapters.map((chapter) => {
+        // chapter.id is already unique (e.g. "Data/1.LCG")
         const chapterKey = `chapter:${chapter.id}`;
+
         const hasChildren =
-          (chapter.files?.length ?? 0) > 0 ||
-          (chapter.folders?.length ?? 0) > 0;
+          (chapter.root.files?.length ?? 0) > 0 ||
+          (chapter.root.folders?.length ?? 0) > 0;
 
         const open = !!openMap[chapterKey];
 
@@ -104,7 +51,16 @@ export const SideBar = ({ openMap, toggle, setSelectedFile }: SideBarProps) => {
           <div key={chapterKey}>
             {/* Chapter row */}
             <ListItemButton onClick={() => hasChildren && toggle(chapterKey)}>
-              <ListItemText primary={chapter.title} />
+              <ListItemText
+                primary={chapter.title}
+                primaryTypographyProps={{
+                  sx: {
+                    whiteSpace: "normal",
+                    overflowWrap: "anywhere",
+                    lineHeight: 1.2,
+                  },
+                }}
+              />
               {hasChildren ? open ? <ExpandLess /> : <ExpandMore /> : null}
             </ListItemButton>
 
@@ -113,20 +69,18 @@ export const SideBar = ({ openMap, toggle, setSelectedFile }: SideBarProps) => {
               <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   {/* 1) chapter files */}
-                  {renderFiles(chapter.files, 1, chapterKey, setSelectedFile)}
+                  {renderFiles(chapter.root.files, 1, chapterKey, onFileClick)}
 
                   {/* 2) chapter folders (recursive) */}
-                  {(chapter.folders ?? []).map((folder) => (
+                  {(chapter.root.folders ?? []).map((folder) => (
                     <ChapterLoop
                       key={`${chapterKey}/folder:${folder.name}`}
-                      name={folder.name}
-                      files={folder.files}
-                      subfolders={folder.subfolders}
+                      folder={folder}
                       depth={1}
                       nodeKey={`${chapterKey}/folder:${folder.name}`}
                       openMap={openMap}
                       toggle={toggle}
-                      setSelectedFile={setSelectedFile}
+                      onFileClick={onFileClick}
                     />
                   ))}
                 </List>

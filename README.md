@@ -83,6 +83,57 @@ git checkout your-branch-name
 git merge main
 ```
 
+## Adding New Chapters / Folders (Content)
+
+This app automatically discovers course content from the filesystem at build time (no backend needed).  
+To add new starter code, notebooks, or assets, you only need to add files under the `src/content/` directory.
+
+### Where to put files
+
+All course materials live under:
+
+```bash
+src/content/Data
+```
+
+Each **top-level folder inside `Data/` becomes a “Chapter”** in the sidebar.
+
+Example structure:
+
+```bash
+src/content/Data/
+1.LCG/
+  hist_example.ipynb
+  LCG.m
+2.MarkovChains/
+  notes.ipynb
+  starter.py
+  figures/
+```
+
+`1.LCG`, `2.MarkovChains`, etc. will appear automatically as chapters.
+
+### Steps to add a new chapter
+
+1. Create a new folder under `src/content/Data/` (this will be the chapter name shown in the sidebar):
+
+   ```bash
+   src/content/Data/3.MyNewTopic/
+   ```
+
+2. Add any files/subfolders you want inside it:
+
+- Jupyter notebooks: `.ipynb`
+- Code/text: `.py`, `.m`, `.txt`, `.md`, `.json`, `.csv`
+- Images: `.png`, `.jpg`, `.jpeg`, `.svg`, `.gif`, `.webp`
+- PDFs: `.pdf` (opens in a new tab)
+
+3. Run the app:
+
+```bash
+  npm run dev
+```
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
