@@ -1,3 +1,25 @@
+# RUNNING DEVELOPMENT
+
+Use 2 terminals: frontend and backend
+
+1. Front end terminal:
+
+```bash
+nvm use 20
+npm install
+npm run dev
+```
+
+2. Backend terminal:
+
+```bash
+cd backend
+source .venv/bin/activate
+uvicorn main:app --reload --port 8000
+```
+
+3. Open the URL from the front-end terminal
+
 # SETUP INSTRUCTIONS
 
 Before running the app, make sure you download:
@@ -35,6 +57,27 @@ npm run dev
 
 ```bash
 http://localhost:5173 //this is an example url
+```
+
+5. Setup the backend in a separate terminal -- create/activate virtual environment
+
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate   # macOS / Linux
+# .venv\Scripts\activate    # Windows
+```
+
+6. Install backend dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+7. Run backend server
+
+```bash
+uvicorn main:app --reload --port 8000
 ```
 
 ## Github Workflow Notes
@@ -85,15 +128,15 @@ git merge main
 
 ## Adding New Chapters / Folders (Content)
 
-This app automatically discovers course content from the filesystem at build time (no backend needed).  
-To add new starter code, notebooks, or assets, you only need to add files under the `src/content/` directory.
+This app automatically discovers course content from the filesystem at build time.  
+To add new starter code, notebooks, or assets, you only need to add files under the `backend/content/Data/` directory.
 
 ### Where to put files
 
 All course materials live under:
 
 ```bash
-src/content/Data
+backend/content/Data
 ```
 
 Each **top-level folder inside `Data/` becomes a “Chapter”** in the sidebar.
