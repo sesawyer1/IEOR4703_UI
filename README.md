@@ -144,7 +144,7 @@ Each **top-level folder inside `Data/` becomes a “Chapter”** in the sidebar.
 Example structure:
 
 ```bash
-src/content/Data/
+backend/content/Data/
 1.LCG/
   hist_example.ipynb
   LCG.m
@@ -158,10 +158,10 @@ src/content/Data/
 
 ### Steps to add a new chapter
 
-1. Create a new folder under `src/content/Data/` (this will be the chapter name shown in the sidebar):
+1. Create a new folder under `backend/content/Data/` (this will be the chapter name shown in the sidebar):
 
    ```bash
-   src/content/Data/3.MyNewTopic/
+   backend/content/Data/3.MyNewTopic/
    ```
 
 2. Add any files/subfolders you want inside it:
