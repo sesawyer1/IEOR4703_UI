@@ -8,8 +8,8 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import TextField from "@mui/material/TextField";
+import NotebookApiViewer from "./notebook-api-viewer";
 import InputAdornment from "@mui/material/InputAdornment";
-import FileViewer from "./file-viewer";
 
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
@@ -40,6 +40,8 @@ export default function App() {
     setOpenMap({}); // closes all dropdowns
     setSearchOpen(false); // optional: close search bar
     setSearchQuery(""); // optional: clear search
+    setSelectedFile(null); // deselect file
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -144,24 +146,37 @@ export default function App() {
       />
 
       {/* Main content area */}
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-
-          // ✅ guarantee main is the "remaining space" next to the Drawer
-          width: `calc(100% - ${sidebarWidth}px)`,
-          ml: `${sidebarWidth}px`,
-        }}
-      >
+      <Box component="main" sx={{ flexGrow: 1 }}>
         <Toolbar />
 
-        <Box sx={{ maxWidth: 1200, mx: "auto", width: "100%" }}>
+        {/* Centered content container */}
+        <Box
+          sx={{
+            maxWidth: 1100, // 👈 key
+            mx: "auto", // 👈 center horizontally
+            px: 3, // padding
+            pb: 6,
+            pt: 2,
+          }}
+        >
           {selectedFile ? (
-            <FileViewer file={selectedFile} />
+            selectedFile.name.endsWith(".ipynb") ? (
+              <NotebookApiViewer file={selectedFile} />
+            ) : (
+              <Typography sx={{ opacity: 0.7 }}>
+                Selected file: {selectedFile.name}
+              </Typography>
+            )
           ) : (
-            <Typography>Select a file from the sidebar.</Typography>
+            <Box sx={{ mt: 6 }}>
+              <Typography variant="h3" fontWeight="bold" gutterBottom>
+                IEOR 4703: Monte Carlo Simulations
+              </Typography>
+
+              <Typography variant="body1" sx={{ opacity: 0.75 }}>
+                Select a chapter and file from the sidebar to get started.
+              </Typography>
+            </Box>
           )}
         </Box>
       </Box>

@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
 
 type NBCell = {
   cell_type: "markdown" | "code" | string;
@@ -36,13 +37,17 @@ const join = (v: string[] | string | undefined) =>
 const joinB64 = (v: string[] | string | undefined) =>
   join(v).replace(/\n/g, "");
 
-export default function NotebookViewer({ raw }: { raw: string }) {
-  let nb: Notebook;
-
-  try {
-    nb = JSON.parse(raw);
-  } catch {
-    return <Typography color="error">Failed to parse notebook.</Typography>;
+export default function NotebookViewer({
+  nb,
+  editMode,
+  onChangeCellSource,
+}: {
+  nb: Notebook;
+  editMode: boolean;
+  onChangeCellSource: (cellIndex: number, newSource: string) => void;
+}) {
+  if (!nb || !Array.isArray(nb.cells)) {
+    return <Typography color="error">Invalid notebook format.</Typography>;
   }
 
   return (
@@ -50,7 +55,17 @@ export default function NotebookViewer({ raw }: { raw: string }) {
       {nb.cells.map((cell, i) => (
         <Paper key={i} sx={{ p: 2 }}>
           {cell.cell_type === "markdown" ? (
-            <ReactMarkdown>{join(cell.source)}</ReactMarkdown>
+            editMode ? (
+              <TextField
+                multiline
+                minRows={3}
+                value={join(cell.source)}
+                onChange={(e) => onChangeCellSource(i, e.target.value)}
+                fullWidth
+              />
+            ) : (
+              <ReactMarkdown>{join(cell.source)}</ReactMarkdown>
+            )
           ) : cell.cell_type === "code" ? (
             <>
               <Typography variant="caption" sx={{ opacity: 0.7 }}>
@@ -60,22 +75,40 @@ export default function NotebookViewer({ raw }: { raw: string }) {
                   : ""}
               </Typography>
 
-              <Box
-                component="pre"
-                sx={{
-                  m: 0,
-                  mt: 1,
-                  p: 1,
-                  overflow: "auto",
-                  borderRadius: 1,
-                  bgcolor: "rgba(0,0,0,0.03)",
-                  fontFamily:
-                    "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
-                  fontSize: 13,
-                }}
-              >
-                {join(cell.source)}
-              </Box>
+              {editMode ? (
+                <TextField
+                  multiline
+                  minRows={3}
+                  value={join(cell.source)}
+                  onChange={(e) => onChangeCellSource(i, e.target.value)}
+                  fullWidth
+                  inputProps={{
+                    style: {
+                      fontFamily:
+                        "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+                      fontSize: 13,
+                    },
+                  }}
+                  sx={{ mt: 1 }}
+                />
+              ) : (
+                <Box
+                  component="pre"
+                  sx={{
+                    m: 0,
+                    mt: 1,
+                    p: 1,
+                    overflow: "auto",
+                    borderRadius: 1,
+                    bgcolor: "rgba(0,0,0,0.03)",
+                    fontFamily:
+                      "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+                    fontSize: 13,
+                  }}
+                >
+                  {join(cell.source)}
+                </Box>
+              )}
 
               {(cell.outputs?.length ?? 0) > 0 && (
                 <>
@@ -116,7 +149,6 @@ function OutputItem({ out }: { out: NBOutput }) {
 
   const data = (out as any).data ?? {};
 
-  // matplotlib PNG
   if (data["image/png"]) {
     const b64 = joinB64(data["image/png"]);
     return (
@@ -133,14 +165,12 @@ function OutputItem({ out }: { out: NBOutput }) {
     );
   }
 
-  // matplotlib SVG
   if (data["image/svg+xml"]) {
     return (
       <div dangerouslySetInnerHTML={{ __html: join(data["image/svg+xml"]) }} />
     );
   }
 
-  // HTML tables
   if (data["text/html"]) {
     return (
       <div dangerouslySetInnerHTML={{ __html: join(data["text/html"]) }} />

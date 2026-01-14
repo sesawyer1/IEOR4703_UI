@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+nbformat
+nbclient
+ipykernel
+jupyter-client
+python-multipart

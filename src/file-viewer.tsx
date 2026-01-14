@@ -1,17 +1,14 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import NotebookViewer from "./notebook-viewer";
 import type { ContentFile } from "./data.type";
+import NotebookApiViewer from "./notebook-api-viewer";
 
 export default function FileViewer({ file }: { file: ContentFile }) {
   const ext = file.ext.toLowerCase();
 
   // 1) Jupyter notebooks
-  if (ext === "ipynb") {
-    if (!file.raw) {
-      return <Typography color="error">Notebook content not found.</Typography>;
-    }
-    return <NotebookViewer raw={file.raw} />;
+  if (file.ext === "ipynb") {
+    return <NotebookApiViewer file={file} />;
   }
 
   // 2) Images
