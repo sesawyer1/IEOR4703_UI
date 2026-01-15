@@ -4,6 +4,12 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CodeIcon from "@mui/icons-material/Code";
+import NotesIcon from "@mui/icons-material/Notes";
 
 type NBCell = {
   cell_type: "markdown" | "code" | string;
@@ -41,10 +47,14 @@ export default function NotebookViewer({
   nb,
   editMode,
   onChangeCellSource,
+  onInsertBelow,
+  onDeleteCell,
 }: {
   nb: Notebook;
   editMode: boolean;
   onChangeCellSource: (cellIndex: number, newSource: string) => void;
+  onInsertBelow: (index: number, kind: "code" | "markdown") => void;
+  onDeleteCell: (index: number) => void;
 }) {
   if (!nb || !Array.isArray(nb.cells)) {
     return <Typography color="error">Invalid notebook format.</Typography>;
@@ -54,6 +64,41 @@ export default function NotebookViewer({
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       {nb.cells.map((cell, i) => (
         <Paper key={i} sx={{ p: 2 }}>
+          {editMode && (
+            <Stack
+              direction="row"
+              spacing={0.5}
+              alignItems="center"
+              sx={{ mb: 1, justifyContent: "flex-end" }}
+            >
+              <IconButton
+                size="small"
+                onClick={() => onInsertBelow(i, "code")}
+                title="Insert code cell below"
+              >
+                <AddIcon fontSize="small" />
+                <CodeIcon fontSize="small" />
+              </IconButton>
+
+              <IconButton
+                size="small"
+                onClick={() => onInsertBelow(i, "markdown")}
+                title="Insert markdown cell below"
+              >
+                <AddIcon fontSize="small" />
+                <NotesIcon fontSize="small" />
+              </IconButton>
+
+              <IconButton
+                size="small"
+                onClick={() => onDeleteCell(i)}
+                title="Delete cell"
+              >
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Stack>
+          )}
+
           {cell.cell_type === "markdown" ? (
             editMode ? (
               <TextField

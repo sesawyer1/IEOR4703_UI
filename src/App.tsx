@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import TextField from "@mui/material/TextField";
-import NotebookApiViewer from "./notebook-api-viewer";
 import InputAdornment from "@mui/material/InputAdornment";
 
 import HomeIcon from "@mui/icons-material/Home";
@@ -16,42 +16,63 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { SideBar } from "./side-bar/side-bar";
+import NotebookApiViewer from "./notebook-api-viewer";
 import type { ContentFile } from "./data.type";
 import { buildChapters } from "./content-index";
+import { filterChapters } from "./side-bar/search.helpers";
+import PythonApiViewer from "./python-api-viewer";
 
 export default function App() {
-  const chapters = buildChapters();
-  console.log("chapters:", chapters);
   const [sidebarWidth, setSidebarWidth] = useState(320);
-
   const [openMap, setOpenMap] = useState<Record<string, boolean>>({});
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedFile, setSelectedFile] = useState<ContentFile | null>(null);
 
   const toggle = (key: string) => {
     setOpenMap((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // ADD BACKEND LATER
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [selectedFile, setSelectedFile] = useState<ContentFile | null>(null);
-
   const handleHome = () => {
-    setOpenMap({}); // closes all dropdowns
-    setSearchOpen(false); // optional: close search bar
-    setSearchQuery(""); // optional: clear search
-    setSelectedFile(null); // deselect file
+    setOpenMap({});
+    setSearchOpen(false);
+    setSearchQuery("");
+    setSelectedFile(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  // Build once (or when the underlying index changes)
+  const allChapters = useMemo(() => buildChapters(), []);
+
+  // Filter whenever searchQuery changes
+  const { filteredChapters, openKeys } = useMemo(() => {
+    return filterChapters(allChapters, searchQuery);
+  }, [allChapters, searchQuery]);
+
+  // Auto-open keys that contain matches
+  useEffect(() => {
+    if (!searchQuery.trim()) return;
+
+    setOpenMap((prev) => {
+      const next = { ...prev };
+      for (const k of openKeys) next[k] = true;
+      return next;
+    });
+  }, [searchQuery, openKeys]);
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
-      {/* Header */}
-      <AppBar position="fixed" sx={{ zIndex: (t) => t.zIndex.drawer + 1 }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          bgcolor: "#C6E6F5",
+          color: "#0D3B66",
+          zIndex: (t) => t.zIndex.drawer + 1,
+        }}
+      >
         <Toolbar sx={{ gap: 1 }}>
-          {/* Home/reset */}
           <IconButton color="inherit" onClick={handleHome} edge="start">
             <HomeIcon />
           </IconButton>
@@ -62,7 +83,6 @@ export default function App() {
 
           <Box sx={{ flexGrow: 1 }} />
 
-          {/* Search toggle */}
           <IconButton
             color="inherit"
             onClick={() => setSearchOpen((v) => !v)}
@@ -71,7 +91,6 @@ export default function App() {
             {searchOpen ? <CloseIcon /> : <SearchIcon />}
           </IconButton>
 
-          {/* Search bar */}
           <Collapse in={searchOpen} orientation="horizontal" timeout={200}>
             <Box sx={{ ml: 1, width: 280 }}>
               <TextField
@@ -93,7 +112,6 @@ export default function App() {
         </Toolbar>
       </AppBar>
 
-      {/* Sidebar */}
       <Drawer
         variant="permanent"
         sx={{
@@ -106,15 +124,17 @@ export default function App() {
           },
         }}
       >
-        {/* pushes sidebar content below the AppBar */}
         <Toolbar />
         <SideBar
-          chapters={chapters}
+          chapters={filteredChapters}
           openMap={openMap}
           toggle={toggle}
           onFileClick={setSelectedFile}
+          selectedPath={selectedFile?.path ?? null}
         />
       </Drawer>
+
+      {/* resize handle */}
       <Box
         sx={{
           width: 6,
@@ -145,23 +165,15 @@ export default function App() {
         }}
       />
 
-      {/* Main content area */}
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Toolbar />
 
-        {/* Centered content container */}
-        <Box
-          sx={{
-            maxWidth: 1100, // 👈 key
-            mx: "auto", // 👈 center horizontally
-            px: 3, // padding
-            pb: 6,
-            pt: 2,
-          }}
-        >
+        <Box sx={{ maxWidth: 1100, mx: "auto", px: 3, pb: 6, pt: 2 }}>
           {selectedFile ? (
             selectedFile.name.endsWith(".ipynb") ? (
               <NotebookApiViewer file={selectedFile} />
+            ) : selectedFile.name.endsWith(".py") ? (
+              <PythonApiViewer file={selectedFile} />
             ) : (
               <Typography sx={{ opacity: 0.7 }}>
                 Selected file: {selectedFile.name}
@@ -172,7 +184,6 @@ export default function App() {
               <Typography variant="h3" fontWeight="bold" gutterBottom>
                 IEOR 4703: Monte Carlo Simulations
               </Typography>
-
               <Typography variant="body1" sx={{ opacity: 0.75 }}>
                 Select a chapter and file from the sidebar to get started.
               </Typography>

@@ -13,11 +13,20 @@ import type { Chapter, ContentFile } from "../data.type";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import { renderFiles } from "./side-bar.helpers";
 
+const prettyLabel = (s: string) =>
+  s
+    .replace(/^(\d+)\./, "$1. ")
+    .replace(/[_-]+/g, " ")
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/\s+/g, " ")
+    .trim();
+
 type SideBarProps = {
   chapters: Chapter[];
   openMap: Record<string, boolean>;
   toggle: (key: string) => void;
   onFileClick: (file: ContentFile) => void;
+  selectedPath: string | null;
 };
 
 export const SideBar = ({
@@ -25,7 +34,27 @@ export const SideBar = ({
   toggle,
   onFileClick,
   chapters,
+  selectedPath,
 }: SideBarProps) => {
+  const rowSx = {
+    mx: 1,
+    my: 0.25,
+    borderRadius: 2,
+    minWidth: 0,
+    alignItems: "flex-start",
+    "&:hover": {
+      bgcolor: "rgba(0,0,0,0.04)",
+    },
+  };
+
+  const selectedRowSx = {
+    ...rowSx,
+    borderRadius: 999,
+    bgcolor: "rgba(25, 118, 210, 0.12)",
+    "&:hover": {
+      bgcolor: "rgba(25, 118, 210, 0.18)",
+    },
+  };
   return (
     <List
       sx={{ width: "100%", bgcolor: "background.paper" }} // remove maxWidth so Drawer controls width
@@ -50,13 +79,24 @@ export const SideBar = ({
         return (
           <div key={chapterKey}>
             {/* Chapter row */}
-            <ListItemButton onClick={() => hasChildren && toggle(chapterKey)}>
+            <ListItemButton
+              onClick={() => hasChildren && toggle(chapterKey)}
+              sx={{
+                ...rowSx,
+                py: 1.1,
+                ...(open
+                  ? { borderLeft: "4px solid rgba(25, 118, 210, 0.6)" }
+                  : {}),
+              }}
+            >
               <ListItemText
-                primary={chapter.title}
+                primary={prettyLabel(chapter.title)}
+                sx={{ my: 0, flex: 1, minWidth: 0 }}
                 primaryTypographyProps={{
                   sx: {
                     whiteSpace: "normal",
                     overflowWrap: "anywhere",
+                    wordBreak: "break-word",
                     lineHeight: 1.2,
                   },
                 }}
@@ -69,7 +109,15 @@ export const SideBar = ({
               <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   {/* 1) chapter files */}
-                  {renderFiles(chapter.root.files, 1, chapterKey, onFileClick)}
+                  {renderFiles(
+                    chapter.root.files,
+                    1,
+                    chapterKey,
+                    onFileClick,
+                    selectedPath,
+                    rowSx,
+                    selectedRowSx
+                  )}
 
                   {/* 2) chapter folders (recursive) */}
                   {(chapter.root.folders ?? []).map((folder) => (
@@ -81,6 +129,9 @@ export const SideBar = ({
                       openMap={openMap}
                       toggle={toggle}
                       onFileClick={onFileClick}
+                      selectedPath={selectedPath}
+                      rowSx={rowSx}
+                      selectedRowSx={selectedRowSx}
                     />
                   ))}
                 </List>

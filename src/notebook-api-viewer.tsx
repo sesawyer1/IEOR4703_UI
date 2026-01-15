@@ -26,6 +26,24 @@ function downloadNotebook(nbObj: any, filename: string) {
   URL.revokeObjectURL(url);
 }
 
+function newCodeCell() {
+  return {
+    cell_type: "code",
+    metadata: {},
+    source: "",
+    outputs: [],
+    execution_count: null,
+  };
+}
+
+function newMarkdownCell() {
+  return {
+    cell_type: "markdown",
+    metadata: {},
+    source: "",
+  };
+}
+
 export default function NotebookApiViewer({ file }: { file: ContentFile }) {
   const [nb, setNb] = useState<any | null>(null);
   const [draftNb, setDraftNb] = useState<any | null>(null);
@@ -117,6 +135,62 @@ export default function NotebookApiViewer({ file }: { file: ContentFile }) {
     });
   };
 
+  const addCodeCell = () => {
+    setDraftNb((prev: any) => {
+      if (!prev) return prev;
+      const next = JSON.parse(JSON.stringify(prev));
+      next.cells.push(newCodeCell());
+      return next;
+    });
+  };
+
+  const addMarkdownCell = () => {
+    setDraftNb((prev: any) => {
+      if (!prev) return prev;
+      const next = JSON.parse(JSON.stringify(prev));
+      next.cells.push(newMarkdownCell());
+      return next;
+    });
+  };
+
+  const insertCellBelow = (index: number, kind: "code" | "markdown") => {
+    setDraftNb((prev: any) => {
+      if (!prev?.cells) return prev;
+      const next = JSON.parse(JSON.stringify(prev));
+
+      const cell =
+        kind === "code"
+          ? {
+              cell_type: "code",
+              metadata: {},
+              source: "",
+              outputs: [],
+              execution_count: null,
+            }
+          : {
+              cell_type: "markdown",
+              metadata: {},
+              source: "",
+            };
+
+      next.cells.splice(index + 1, 0, cell);
+      return next;
+    });
+  };
+
+  const deleteCell = (index: number) => {
+    setDraftNb((prev: any) => {
+      if (!prev?.cells) return prev;
+      const next = JSON.parse(JSON.stringify(prev));
+
+      // Don’t allow deleting last cell (optional safety)
+      if (next.cells.length <= 1) return next;
+
+      next.cells.splice(index, 1);
+      return next;
+    });
+  };
+
   const downloadOriginalUrl = `${API_BASE}/api/download?path=${encodedPath}&executed=0`;
 
   const displayNb = editMode ? draftNb : nb;
@@ -137,7 +211,7 @@ export default function NotebookApiViewer({ file }: { file: ContentFile }) {
           onClick={() => setEditMode((v) => !v)}
           disabled={!draftNb}
         >
-          {editMode ? "Original mode" : "Edit mode"}
+          {editMode ? "View mode" : "Edit mode"}
         </Button>
 
         <Button
@@ -163,6 +237,17 @@ export default function NotebookApiViewer({ file }: { file: ContentFile }) {
         >
           {editMode ? "Download edited" : "Download current"}
         </Button>
+        {editMode && (
+          <>
+            <Button variant="outlined" onClick={addCodeCell}>
+              + Code Cell
+            </Button>
+
+            <Button variant="outlined" onClick={addMarkdownCell}>
+              + Markdown Cell
+            </Button>
+          </>
+        )}
       </Stack>
 
       {loading && <CircularProgress />}
@@ -176,6 +261,8 @@ export default function NotebookApiViewer({ file }: { file: ContentFile }) {
           nb={displayNb}
           editMode={editMode}
           onChangeCellSource={onChangeCellSource}
+          onInsertBelow={insertCellBelow}
+          onDeleteCell={deleteCell}
         />
       )}
     </Box>

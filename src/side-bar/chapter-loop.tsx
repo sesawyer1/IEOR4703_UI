@@ -6,7 +6,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 
 import FolderIcon from "@mui/icons-material/Folder";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
@@ -20,6 +19,9 @@ type ChapterLoopProps = {
   openMap: Record<string, boolean>;
   toggle: (key: string) => void;
   onFileClick: (file: ContentFile) => void;
+  selectedPath: string | null;
+  rowSx: any;
+  selectedRowSx: any;
 };
 
 export default function ChapterLoop({
@@ -29,6 +31,9 @@ export default function ChapterLoop({
   openMap,
   toggle,
   onFileClick,
+  selectedPath,
+  rowSx,
+  selectedRowSx,
 }: ChapterLoopProps) {
   const hasChildren =
     (folder.files?.length ?? 0) > 0 || (folder.folders?.length ?? 0) > 0;
@@ -39,19 +44,26 @@ export default function ChapterLoop({
     <>
       {/* Folder row */}
       <ListItemButton
-        sx={{ pl: 2 + depth * 2 }}
+        sx={{
+          ...rowSx,
+          pl: 2 + depth * 2,
+          py: 1.0,
+          ...(open ? { borderLeft: "4px solid rgba(25, 118, 210, 0.6)" } : {}),
+        }}
         onClick={() => hasChildren && toggle(nodeKey)}
       >
-        <ListItemIcon>
-          <FolderIcon />
+        <ListItemIcon sx={{ minWidth: 32 }}>
+          <FolderIcon fontSize="small" />
         </ListItemIcon>
 
         <ListItemText
           primary={folder.name}
+          sx={{ my: 0, flex: 1, minWidth: 0 }}
           primaryTypographyProps={{
             sx: {
               whiteSpace: "normal",
               overflowWrap: "anywhere",
+              wordBreak: "break-word",
               lineHeight: 1.2,
             },
           }}
@@ -65,7 +77,15 @@ export default function ChapterLoop({
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {/* Files */}
-            {renderFiles(folder.files, depth + 1, nodeKey, onFileClick)}
+            {renderFiles(
+              folder.files,
+              depth + 1,
+              nodeKey,
+              onFileClick,
+              selectedPath,
+              rowSx,
+              selectedRowSx
+            )}
 
             {/* Subfolders (recursive) */}
             {(folder.folders ?? []).map((sub) => (
@@ -77,6 +97,9 @@ export default function ChapterLoop({
                 openMap={openMap}
                 toggle={toggle}
                 onFileClick={onFileClick}
+                selectedPath={selectedPath}
+                rowSx={rowSx}
+                selectedRowSx={selectedRowSx}
               />
             ))}
           </List>
