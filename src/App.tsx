@@ -77,9 +77,7 @@ export default function App() {
             <HomeIcon />
           </IconButton>
 
-          <Typography variant="h6" noWrap>
-            IEOR 4703 Starter Codes
-          </Typography>
+          <Typography fontWeight={600}>IEOR 4703 Starter Codes</Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
@@ -181,11 +179,41 @@ export default function App() {
             )
           ) : (
             <Box sx={{ mt: 6 }}>
-              <Typography variant="h3" fontWeight="bold" gutterBottom>
-                IEOR 4703: Monte Carlo Simulations
+              <Typography variant="h4" fontWeight="bold" gutterBottom>
+                Welcome to IEOR 4703: Monte Carlo Simulations
               </Typography>
-              <Typography variant="body1" sx={{ opacity: 0.75 }}>
-                Select a chapter and file from the sidebar to get started.
+              <Typography
+                variant="body1"
+                sx={{
+                  maxWidth: 720,
+                  lineHeight: 1.65,
+                  color: "text.secondary",
+                  mt: 2,
+                }}
+              >
+                Monte Carlo simulation, also known as the Monte Carlo method,
+                originated in the late 1940s at Los Alamos National Laboratory,
+                where researchers such as Stanisław Ulam, John von Neumann,and
+                Nicholas Metropolis used repeated simulations to study complex
+                physical systems under uncertainty. The idea is to generate
+                random samples of uncertain inputs (or random system paths), run
+                the model many times, and use the resulting collection of
+                outputs to form a statistical description of the
+                outcomes—providing evidence for how the real-world system is
+                likely to behave. It is this repeated random sampling over many
+                simulation runs that defines Monte Carlo simulation. The result
+                is a computational experiment designed to approximate reality in
+                the aspects most relevant to the question being studied. Monte
+                Carlo methods are widely used across quantitative, mathematical,
+                and physical problems, especially when analytical solutions are
+                difficult or impossible. Common applications include sampling
+                from probability distributions, numerical integration,
+                optimization, scenario testing, risk estimation, and more.
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
+                Prof. Ali Hirsa
+                <br />
+                ali.hirsa@columbia.edu
               </Typography>
             </Box>
           )}

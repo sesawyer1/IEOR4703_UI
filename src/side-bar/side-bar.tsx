@@ -47,6 +47,24 @@ export const SideBar = ({
     },
   };
 
+  const chapterNumber = (title: string) => {
+    const m = title.match(/^\s*(\d+)\s*\./);
+    return m ? Number(m[1]) : Number.POSITIVE_INFINITY; // non-numbered go last
+  };
+
+  const sortedChapters = React.useMemo(() => {
+    return [...chapters].sort((a, b) => {
+      const na = chapterNumber(a.title);
+      const nb = chapterNumber(b.title);
+
+      // primary: numeric prefix
+      if (na !== nb) return na - nb;
+
+      // tie-breaker: consistent ordering if same/none
+      return a.title.localeCompare(b.title);
+    });
+  }, [chapters]);
+
   const selectedRowSx = {
     ...rowSx,
     borderRadius: 999,
@@ -66,7 +84,7 @@ export const SideBar = ({
         </ListSubheader>
       }
     >
-      {chapters.map((chapter) => {
+      {sortedChapters.map((chapter) => {
         // chapter.id is already unique (e.g. "Data/1.LCG")
         const chapterKey = `chapter:${chapter.id}`;
 
@@ -83,7 +101,7 @@ export const SideBar = ({
               onClick={() => hasChildren && toggle(chapterKey)}
               sx={{
                 ...rowSx,
-                py: 1.1,
+                py: 0.8,
                 ...(open
                   ? { borderLeft: "4px solid rgba(25, 118, 210, 0.6)" }
                   : {}),

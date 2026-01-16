@@ -6,8 +6,19 @@ from pathlib import Path
 import tempfile
 import nbformat
 from nbclient import NotebookClient
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 app = FastAPI()
+
+# DIST_DIR = (Path(__file__).parent / "dist").resolve()
+
+# app.mount("/", StaticFiles(directory=DIST_DIR, html=True), name="static")
+
+# optional: ensure SPA routing works (react-router)
+# @app.get("/{full_path:path}")
+# def spa_fallback(full_path: str):
+#     return FileResponse(DIST_DIR / "index.html")
 
 # ---- CORS (Vite dev server) ----
 app.add_middleware(
