@@ -1,0 +1,609 @@
+Rank,City,Population
+1,"New York city, New York",8537673
+2,"Buffalo city, New York",256902
+3,"Rochester city, New York",208880
+4,"Yonkers city, New York",200807
+5,"Syracuse city, New York",143378
+6,"Albany city, New York",98111
+7,"New Rochelle city, New York",79557
+8,"Mount Vernon city, New York",68344
+9,"Schenectady city, New York",64913
+10,"Utica city, New York",60652
+11,"White Plains city, New York",58241
+12,"Hempstead village, New York",55555
+13,"Troy city, New York",49702
+14,"Niagara Falls city, New York",48632
+15,"Binghamton city, New York",45672
+16,"Freeport village, New York",43279
+17,"Valley Stream village, New York",37673
+18,"Long Beach city, New York",33717
+19,"Spring Valley village, New York",32603
+20,"Rome city, New York",32415
+21,"Ithaca city, New York",30756
+22,"North Tonawanda city, New York",30607
+23,"Poughkeepsie city, New York",30267
+24,"Jamestown city, New York",29775
+25,"Port Chester village, New York",29524
+26,"Harrison village, New York",28340
+27,"Newburgh city, New York",28200
+28,"Elmira city, New York",27962
+29,"Saratoga Springs city, New York",27763
+30,"Middletown city, New York",27653
+31,"Glen Cove city, New York",27341
+32,"Lindenhurst village, New York",27074
+33,"Auburn city, New York",26821
+34,"Watertown city, New York",25900
+35,"Ossining village, New York",25360
+36,"Rockville Centre village, New York",24571
+37,"Peekskill city, New York",24053
+38,"Kingston city, New York",23210
+39,"Kiryas Joel village, New York",23094
+40,"Garden City village, New York",22545
+41,"Lockport city, New York",20480
+42,"Plattsburgh city, New York",19780
+43,"Lynbrook village, New York",19567
+44,"Mamaroneck village, New York",19356
+45,"Mineola village, New York",19245
+46,"Cortland city, New York",18795
+47,"Scarsdale village, New York",17909
+48,"Lackawanna city, New York",17868
+49,"Amsterdam city, New York",17858
+50,"Oswego city, New York",17599
+51,"Massapequa Park village, New York",17202
+52,"Cohoes city, New York",16883
+53,"Rye city, New York",15980
+54,"Floral Park village, New York",15951
+55,"Westbury village, New York",15384
+56,"Depew village, New York",15190
+57,"Kenmore village, New York",15143
+58,"Gloversville city, New York",14940
+59,"Tonawanda city, New York",14858
+60,"Batavia city, New York",14801
+61,"Mastic Beach village, New York",14760
+62,"Johnson City village, New York",14673
+63,"Glens Falls city, New York",14328
+64,"Beacon city, New York",14271
+65,"Oneonta city, New York",13955
+66,"Olean city, New York",13794
+67,"Endicott village, New York",12992
+68,"Geneva city, New York",12988
+69,"Patchogue village, New York",12449
+70,"Haverstraw village, New York",12129
+71,"Babylon village, New York",12079
+72,"Dunkirk city, New York",11940
+73,"Tarrytown village, New York",11532
+74,"Fulton city, New York",11402
+75,"Lake Grove village, New York",11162
+76,"Mount Kisco village, New York",11103
+77,"Dobbs Ferry village, New York",11093
+78,"Oneida city, New York",11080
+79,"Woodbury village, New York",10986
+80,"Suffern village, New York",10948
+81,"Corning city, New York",10812
+82,"Ogdensburg city, New York",10743
+83,"Fredonia village, New York",10639
+84,"Massena village, New York",10468
+85,"Canandaigua city, New York",10369
+86,"West Haverstraw village, New York",10345
+87,"Great Neck village, New York",10218
+88,"Sleepy Hollow village, New York",10198
+89,"Lancaster village, New York",10165
+90,"Watervliet city, New York",10120
+91,"New Hyde Park village, New York",9863
+92,"East Rockaway village, New York",9802
+93,"Potsdam village, New York",9708
+94,"Hamburg village, New York",9590
+95,"Rye Brook village, New York",9575
+96,"Amityville village, New York",9494
+97,"Rensselaer city, New York",9340
+98,"Newark village, New York",8938
+99,"Farmingdale village, New York",8857
+100,"Airmont village, New York",8856
+101,"Monroe village, New York",8600
+102,"Port Jervis city, New York",8572
+103,"Malverne village, New York",8544
+104,"New Square village, New York",8357
+105,"Brockport village, New York",8319
+106,"Johnstown city, New York",8309
+107,"Hornell city, New York",8264
+108,"Croton-on-Hudson village, New York",8243
+109,"Geneseo village, New York",8158
+110,"Chestnut Ridge village, New York",8135
+111,"Briarcliff Manor village, New York",8032
+112,"Hastings-on-Hudson village, New York",7969
+113,"Ilion village, New York",7853
+114,"Colonie village, New York",7838
+115,"Port Jefferson village, New York",7794
+116,"Scotia village, New York",7664
+117,"Baldwinsville village, New York",7605
+118,"Herkimer village, New York",7455
+119,"Northport village, New York",7342
+120,"Williston Park village, New York",7289
+121,"East Hills village, New York",7173
+122,"Pleasantville village, New York",7150
+123,"Hudson Falls village, New York",7121
+124,"New Paltz village, New York",7046
+125,"Pelham village, New York",7020
+126,"Great Neck Plaza village, New York",7003
+127,"Nyack village, New York",6987
+128,"Norwich city, New York",6855
+129,"Warwick village, New York",6810
+130,"North Syracuse village, New York",6800
+131,"Bayville village, New York",6751
+132,"Walden village, New York",6721
+133,"Cedarhurst village, New York",6667
+134,"Manorhaven village, New York",6651
+135,"Tuckahoe village, New York",6615
+136,"East Rochester village, New York",6611
+137,"Irvington village, New York",6587
+138,"Lawrence village, New York",6558
+139,"Horseheads village, New York",6541
+140,"Canton village, New York",6524
+141,"Monticello village, New York",6435
+142,"Bronxville village, New York",6407
+143,"Hudson city, New York",6404
+144,"Solvay village, New York",6365
+145,"East Aurora village, New York",6198
+146,"Larchmont village, New York",6118
+147,"Albion village, New York",5962
+148,"Wesley Hills village, New York",5914
+149,"Hilton village, New York",5876
+150,"North Hills village, New York",5814
+151,"Medina village, New York",5784
+152,"Washingtonville village, New York",5773
+153,"Malone village, New York",5686
+154,"Bath village, New York",5588
+155,"Pelham Manor village, New York",5565
+156,"Salamanca city, New York",5552
+157,"Webster village, New York",5551
+158,"Wappingers Falls village, New York",5506
+159,"New Hempstead village, New York",5440
+160,"Fairport village, New York",5406
+161,"Goshen village, New York",5368
+162,"Kaser village, New York",5354
+163,"Ballston Spa village, New York",5319
+164,"Saranac Lake village, New York",5288
+165,"Williamsville village, New York",5236
+166,"Kings Point village, New York",5213
+167,"Mechanicville city, New York",5100
+168,"Sea Cliff village, New York",5054
+169,"Waterloo village, New York",5019
+170,"Elmsford village, New York",5012
+171,"Penn Yan village, New York",4987
+172,"Chittenango village, New York",4914
+173,"Flower Hill village, New York",4817
+174,"Island Park village, New York",4799
+175,"Old Westbury village, New York",4743
+176,"Little Falls city, New York",4741
+177,"Montebello village, New York",4651
+178,"Ardsley village, New York",4634
+179,"Canastota village, New York",4613
+180,"Montgomery village, New York",4572
+181,"Cobleskill village, New York",4559
+182,"Manlius village, New York",4539
+183,"Dansville village, New York",4510
+184,"Wellsville village, New York",4484
+185,"Springville village, New York",4318
+186,"Le Roy village, New York",4249
+187,"Waverly village, New York",4190
+188,"Fayetteville village, New York",4150
+189,"Hamilton village, New York",4122
+190,"Liberty village, New York",4092
+191,"Alfred village, New York",4060
+192,"Ellenville village, New York",4047
+193,"Menands village, New York",3964
+194,"Chester village, New York",3957
+195,"Elmira Heights village, New York",3935
+196,"Saugerties village, New York",3869
+197,"Catskill village, New York",3837
+198,"Highland Falls village, New York",3817
+199,"Cayuga Heights village, New York",3803
+200,"Owego village, New York",3791
+201,"Gouverneur village, New York",3747
+202,"Sidney village, New York",3702
+203,"Lloyd Harbor village, New York",3694
+204,"Muttontown village, New York",3675
+205,"Spencerport village, New York",3669
+206,"Whitesboro village, New York",3667
+207,"Lansing village, New York",3632
+208,"Dannemora village, New York",3620
+209,"Brookville village, New York",3596
+210,"Sloan village, New York",3573
+211,"South Glens Falls village, New York",3560
+212,"Tupper Lake village, New York",3541
+213,"South Nyack village, New York",3530
+214,"Perry village, New York",3495
+215,"Minoa village, New York",3492
+216,"Carthage village, New York",3458
+217,"Maybrook village, New York",3428
+218,"Hoosick Falls village, New York",3420
+219,"Lowville village, New York",3408
+220,"Palmyra village, New York",3381
+221,"Islandia village, New York",3363
+222,"Warsaw village, New York",3347
+223,"Fort Edward village, New York",3296
+224,"Avon village, New York",3290
+225,"New York Mills village, New York",3286
+226,"Southampton village, New York",3280
+227,"Ravena village, New York",3238
+228,"Pomona village, New York",3235
+229,"Port Washington North village, New York",3228
+230,"South Blooming Grove village, New York",3167
+231,"Orchard Park village, New York",3165
+232,"Homer village, New York",3143
+233,"Delhi village, New York",3137
+234,"Sloatsburg village, New York",3118
+235,"Lake Success village, New York",3107
+236,"Greenwood Lake village, New York",3101
+237,"Brightwaters village, New York",3060
+238,"Westfield village, New York",3054
+239,"Sherrill city, New York",3048
+240,"East Syracuse village, New York",2980
+241,"Cornwall-on-Hudson village, New York",2925
+242,"Walton village, New York",2894
+243,"Sands Point village, New York",2886
+244,"Lakewood village, New York",2872
+245,"Mount Morris village, New York",2868
+246,"Florida village, New York",2857
+247,"Roslyn village, New York",2856
+248,"Akron village, New York",2854
+249,"Cazenovia village, New York",2846
+250,"Great Neck Estates village, New York",2836
+251,"Honeoye Falls village, New York",2820
+252,"Voorheesville village, New York",2820
+253,"Victor village, New York",2744
+254,"Munsey Park village, New York",2728
+255,"Thomaston village, New York",2727
+256,"Coxsackie village, New York",2686
+257,"Gowanda village, New York",2633
+258,"Blasdell village, New York",2621
+259,"Yorkville village, New York",2616
+260,"Green Island village, New York",2598
+261,"Rhinebeck village, New York",2592
+262,"Lewiston village, New York",2591
+263,"Mohawk village, New York",2586
+264,"East Williston village, New York",2577
+265,"Alden village, New York",2573
+266,"Piermont village, New York",2565
+267,"Whitehall village, New York",2556
+268,"Silver Creek village, New York",2516
+269,"Skaneateles village, New York",2487
+270,"Frankfort village, New York",2484
+271,"Corinth village, New York",2481
+272,"Granville village, New York",2466
+273,"Harriman village, New York",2462
+274,"Attica village, New York",2449
+275,"Lake Placid village, New York",2438
+276,"Groton village, New York",2372
+277,"Brewster village, New York",2346
+278,"Pawling village, New York",2305
+279,"Falconer village, New York",2295
+280,"Pulaski village, New York",2282
+281,"Phoenix village, New York",2281
+282,"Oyster Bay Cove village, New York",2276
+283,"Sag Harbor village, New York",2274
+284,"Buchanan village, New York",2265
+285,"Liverpool village, New York",2258
+286,"Fort Plain village, New York",2229
+287,"Greenport village, New York",2204
+288,"Old Brookville village, New York",2204
+289,"Camden village, New York",2188
+290,"Canisteo village, New York",2185
+291,"Upper Nyack village, New York",2175
+292,"Waterford village, New York",2167
+293,"Rouses Point village, New York",2161
+294,"Canajoharie village, New York",2146
+295,"Caledonia village, New York",2127
+296,"Fishkill village, New York",2116
+297,"Angola village, New York",2113
+298,"Dolgeville village, New York",2113
+299,"Lima village, New York",2098
+300,"Dryden village, New York",2081
+301,"Clifton Springs village, New York",2071
+302,"Bellport village, New York",2066
+303,"Churchville village, New York",2042
+304,"Laurel Hollow village, New York",2038
+305,"Boonville village, New York",2025
+306,"West Carthage village, New York",2000
+307,"Clyde village, New York",1987
+308,"Painted Post village, New York",1980
+309,"Red Hook village, New York",1979
+310,"Arcade village, New York",1972
+311,"Stewart Manor village, New York",1969
+312,"Scottsville village, New York",1958
+313,"Cold Spring village, New York",1948
+314,"Phelps village, New York",1933
+315,"Youngstown village, New York",1910
+316,"Atlantic Beach village, New York",1908
+317,"Clayton village, New York",1892
+318,"Valatie village, New York",1891
+319,"Watkins Glen village, New York",1890
+320,"Clinton village, New York",1878
+321,"New Hartford village, New York",1834
+322,"Cambridge village, New York",1819
+323,"Trumansburg village, New York",1819
+324,"Village of the Branch village, New York",1801
+325,"Wayland village, New York",1801
+326,"South Floral Park village, New York",1800
+327,"Central Square village, New York",1795
+328,"Lattingtown village, New York",1789
+329,"Middleport village, New York",1776
+330,"Marcellus village, New York",1773
+331,"Cooperstown village, New York",1770
+332,"Adams village, New York",1769
+333,"Westhampton Beach village, New York",1766
+334,"Upper Brookville village, New York",1762
+335,"Morrisville village, New York",1747
+336,"Nissequogue village, New York",1747
+337,"Weedsport village, New York",1747
+338,"Keeseville village, New York",1743
+339,"Oakfield village, New York",1743
+340,"Sodus village, New York",1738
+341,"Greenwich village, New York",1732
+342,"Allegany village, New York",1729
+343,"Altamont village, New York",1723
+344,"Holley village, New York",1723
+345,"Stillwater village, New York",1714
+346,"Addison village, New York",1702
+347,"St. Johnsville village, New York",1681
+348,"Franklinville village, New York",1672
+349,"Chatham village, New York",1667
+350,"Montour Falls village, New York",1659
+351,"Dundee village, New York",1654
+352,"Mayville village, New York",1654
+353,"Manchester village, New York",1649
+354,"Wolcott village, New York",1627
+355,"Athens village, New York",1609
+356,"Norwood village, New York",1592
+357,"Port Dickinson village, New York",1582
+358,"Deposit village, New York",1577
+359,"Mexico village, New York",1554
+360,"Waterville village, New York",1542
+361,"Head of the Harbor village, New York",1480
+362,"Greene village, New York",1478
+363,"Macedon village, New York",1465
+364,"Castleton-on-Hudson village, New York",1464
+365,"Cuba village, New York",1460
+366,"Sackets Harbor village, New York",1443
+367,"Plandome village, New York",1441
+368,"Huntington Bay village, New York",1437
+369,"Shortsville village, New York",1433
+370,"Brocton village, New York",1426
+371,"Middleburgh village, New York",1420
+372,"Millbrook village, New York",1413
+373,"Oxford village, New York",1407
+374,"Livonia village, New York",1363
+375,"Oriskany village, New York",1362
+376,"Schuylerville village, New York",1355
+377,"Pittsford village, New York",1339
+378,"Bainbridge village, New York",1331
+379,"Sherburne village, New York",1330
+380,"Nunda village, New York",1319
+381,"Jordan village, New York",1317
+382,"Bloomfield village, New York",1314
+383,"Philmont village, New York",1296
+384,"Broadalbin village, New York",1295
+385,"Hagaman village, New York",1290
+386,"Black River village, New York",1284
+387,"Hewlett Harbor village, New York",1278
+388,"Roslyn Estates village, New York",1245
+389,"Moravia village, New York",1231
+390,"Port Byron village, New York",1231
+391,"Wilson village, New York",1224
+392,"Camillus village, New York",1215
+393,"North Collins village, New York",1214
+394,"Richfield Springs village, New York",1206
+395,"Philadelphia village, New York",1181
+396,"Kensington village, New York",1175
+397,"Bellerose village, New York",1171
+398,"Union Springs village, New York",1167
+399,"Wurtsboro village, New York",1167
+400,"Vernon village, New York",1164
+401,"Kinderhook village, New York",1162
+402,"Port Henry village, New York",1130
+403,"Brownville village, New York",1121
+404,"Bergen village, New York",1120
+405,"Nassau village, New York",1119
+406,"South Corning village, New York",1115
+407,"East Hampton village, New York",1114
+408,"Little Valley village, New York",1113
+409,"Roslyn Harbor village, New York",1098
+410,"Tivoli village, New York",1093
+411,"Unadilla village, New York",1075
+412,"Alexandria Bay village, New York",1063
+413,"Champlain village, New York",1062
+414,"Baxter Estates village, New York",1059
+415,"Northville village, New York",1059
+416,"Stamford village, New York",1056
+417,"Delevan village, New York",1053
+418,"Otisville village, New York",1052
+419,"Celoron village, New York",1047
+420,"Dexter village, New York",1047
+421,"Plandome Heights village, New York",1023
+422,"Elbridge village, New York",1020
+423,"Naples village, New York",1011
+424,"New Berlin village, New York",1002
+425,"Quogue village, New York",1001
+426,"Andover village, New York",1000
+427,"Bolivar village, New York",998
+428,"McGraw village, New York",998
+429,"Hillburn village, New York",989
+430,"Castile village, New York",975
+431,"Portville village, New York",974
+432,"Mill Neck village, New York",969
+433,"Hancock village, New York",962
+434,"Otego village, New York",959
+435,"Waddington village, New York",958
+436,"Russell Gardens village, New York",950
+437,"Newark Valley village, New York",941
+438,"Saddle Rock village, New York",940
+439,"Poquott village, New York",939
+440,"Cattaraugus village, New York",933
+441,"Millerton village, New York",933
+442,"Belmont village, New York",931
+443,"Whitney Point village, New York",931
+444,"Avoca village, New York",914
+445,"Salem village, New York",912
+446,"Old Field village, New York",906
+447,"Windsor village, New York",892
+448,"Plandome Manor village, New York",888
+449,"Lake George village, New York",885
+450,"Sylvan Beach village, New York",885
+451,"North Haven village, New York",884
+452,"Marathon village, New York",878
+453,"Sodus Point village, New York",872
+454,"Richmondville village, New York",867
+455,"West Winfield village, New York",867
+456,"Tully village, New York",863
+457,"Schoharie village, New York",838
+458,"Angelica village, New York",831
+459,"Matinecock village, New York",827
+460,"Earlville village, New York",817
+461,"Chateaugay village, New York",816
+462,"Arkport village, New York",815
+463,"Theresa village, New York",813
+464,"Cohocton village, New York",810
+465,"Afton village, New York",809
+466,"Candor village, New York",802
+467,"Savona village, New York",801
+468,"Woodridge village, New York",801
+469,"Mayfield village, New York",800
+470,"Lyndonville village, New York",797
+471,"Copenhagen village, New York",796
+472,"Belle Terre village, New York",783
+473,"Fultonville village, New York",782
+474,"Woodsburgh village, New York",779
+475,"Fonda village, New York",759
+476,"North Hornell village, New York",755
+477,"Palatine Bridge village, New York",754
+478,"Silver Springs village, New York",745
+479,"Sandy Creek village, New York",735
+480,"Heuvelton village, New York",734
+481,"Cleveland village, New York",729
+482,"Fair Haven village, New York",725
+483,"Spencer village, New York",721
+484,"Aurora village, New York",717
+485,"Cape Vincent village, New York",717
+486,"Corfu village, New York",714
+487,"Oriskany Falls village, New York",697
+488,"Sherman village, New York",693
+489,"Rushville village, New York",672
+490,"Port Leyden village, New York",664
+491,"Antwerp village, New York",663
+492,"Forestville village, New York",663
+493,"Elba village, New York",655
+494,"Asharoken village, New York",648
+495,"Hammondsport village, New York",638
+496,"Oneida Castle village, New York",632
+497,"Round Lake village, New York",625
+498,"Nelsonville village, New York",623
+499,"Ovid village, New York",620
+500,"Harrisville village, New York",619
+501,"Interlaken village, New York",619
+502,"Newport village, New York",614
+503,"Cassadaga village, New York",611
+504,"Croghan village, New York",607
+505,"Tuxedo Park village, New York",601
+506,"Chaumont village, New York",598
+507,"South Dayton village, New York",592
+508,"Unionville village, New York",589
+509,"Schaghticoke village, New York",587
+510,"Victory village, New York",580
+511,"Evans Mills village, New York",577
+512,"Nelliston village, New York",570
+513,"East Nassau village, New York",567
+514,"Odessa village, New York",565
+515,"Margaretville village, New York",562
+516,"Lyons Falls village, New York",561
+517,"Sinclairville village, New York",558
+518,"Morris village, New York",557
+519,"Lacona village, New York",554
+520,"Wellsburg village, New York",548
+521,"Hannibal village, New York",531
+522,"Shoreham village, New York",531
+523,"Sharon Springs village, New York",530
+524,"Wampsville village, New York",529
+525,"DeRuyter village, New York",528
+526,"Cayuga village, New York",522
+527,"Canaseraga village, New York",519
+528,"Cato village, New York",519
+529,"Freeville village, New York",516
+530,"Tannersville village, New York",512
+531,"Van Etten village, New York",512
+532,"Barker village, New York",510
+533,"Red Creek village, New York",503
+534,"Alexander village, New York",499
+535,"Middleville village, New York",498
+536,"Cherry Valley village, New York",497
+537,"Remsen village, New York",497
+538,"Poland village, New York",496
+539,"Glen Park village, New York",491
+540,"Riverside village, New York",482
+541,"Hewlett Neck village, New York",480
+542,"Hunter village, New York",480
+543,"Nichols village, New York",476
+544,"Fort Ann village, New York",470
+545,"Fort Johnson village, New York",464
+546,"Munnsville village, New York",462
+547,"Valley Falls village, New York",455
+548,"Holland Patent village, New York",451
+549,"Leicester village, New York",451
+550,"Panama village, New York",450
+551,"Almond village, New York",441
+552,"Cherry Creek village, New York",440
+553,"Brushton village, New York",439
+554,"Richburg village, New York",438
+555,"Hewlett Bay Park village, New York",437
+556,"Parish village, New York",436
+557,"Wyoming village, New York",428
+558,"Bloomingburg village, New York",408
+559,"Centre Island village, New York",408
+560,"Hermon village, New York",405
+561,"Hobart village, New York",403
+562,"Milford village, New York",396
+563,"Ellicottville village, New York",388
+564,"Morristown village, New York",382
+565,"Delanson village, New York",379
+566,"Gilbertsville village, New York",372
+567,"Farnham village, New York",369
+568,"Bemus Point village, New York",355
+569,"Castorland village, New York",347
+570,"Mannsville village, New York",347
+571,"Fabius village, New York",346
+572,"Franklin village, New York",344
+573,"Clayville village, New York",337
+574,"Esperance village, New York",337
+575,"Jeffersonville village, New York",336
+576,"Fleischmanns village, New York",325
+577,"Sagaponack village, New York",324
+578,"Burdett village, New York",320
+579,"Cold Brook village, New York",320
+580,"Rensselaer Falls village, New York",318
+581,"Richville village, New York",316
+582,"Cove Neck village, New York",308
+583,"Lisle village, New York",307
+584,"Speculator village, New York",302
+585,"Meridian village, New York",301
+586,"Grand View-on-Hudson village, New York",300
+587,"Dresden village, New York",296
+588,"Madison village, New York",295
+589,"Lodi village, New York",294
+590,"Argyle village, New York",293
+591,"Millport village, New York",291
+592,"Deferiet village, New York",287
+593,"Barneveld village, New York",281
+594,"Hammond village, New York",272
+595,"Laurens village, New York",250
+596,"Constableville village, New York",239
+597,"Ellisburg village, New York",239
+598,"Turin village, New York",230
+599,"Gainesville village, New York",224
+600,"Smyrna village, New York",224
+601,"Burke village, New York",201
+602,"Galway village, New York",196
+603,"Ames village, New York",142
+604,"Herrings village, New York",86
+605,"Ocean Beach village, New York",82
+606,"West Hampton Dunes village, New York",58
+607,"Saltaire village, New York",41
+608,"Dering Harbor village, New York",11
