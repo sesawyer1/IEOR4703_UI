@@ -5,3 +5,8 @@ nbclient
 ipykernel
 jupyter-client
 python-multipart
+numpy
+matplotlib
+pandas
+scikit-learn
+tensorflow

@@ -21,6 +21,8 @@ import type { ContentFile } from "./data.type";
 import { buildChapters } from "./content-index";
 import { filterChapters } from "./side-bar/search.helpers";
 import PythonApiViewer from "./python-api-viewer";
+import ImageApiViewer from "./image-api-viewer";
+
 
 export default function App() {
   const [sidebarWidth, setSidebarWidth] = useState(320);
@@ -172,6 +174,8 @@ export default function App() {
               <NotebookApiViewer file={selectedFile} />
             ) : selectedFile.name.endsWith(".py") ? (
               <PythonApiViewer file={selectedFile} />
+            ) : selectedFile.name.match(/\.(png|jpg|jpeg|gif|webp)$/i) ? (
+              <ImageApiViewer file={selectedFile} />
             ) : (
               <Typography sx={{ opacity: 0.7 }}>
                 Selected file: {selectedFile.name}
