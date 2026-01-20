@@ -1,1 +1,3 @@
-export const API_BASE = "http://localhost:8000";
+// src/api.ts
+export const API_BASE = "";
+

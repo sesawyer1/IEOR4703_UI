@@ -3,6 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import PythonFileViewer from "./python-file-viewer";
 import type { ContentFile } from "./data.type";
+import { API_BASE } from "./api";
 
 export default function PythonApiViewer({ file }: { file: ContentFile }) {
   const [code, setCode] = useState<string | null>(null);
@@ -12,7 +13,7 @@ export default function PythonApiViewer({ file }: { file: ContentFile }) {
     setCode(null);
     setError(null);
 
-    fetch(`/${file.path}`)
+    fetch(`${API_BASE}/api/download?path=${encodeURIComponent(file.path)}&executed=0`)
       .then(async (r) => {
         if (!r.ok) throw new Error(await r.text());
         return r.text();
