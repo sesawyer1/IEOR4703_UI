@@ -11,20 +11,11 @@ from fastapi.responses import FileResponse
 
 app = FastAPI()
 
-# DIST_DIR = (Path(__file__).parent / "dist").resolve()
-
-# app.mount("/", StaticFiles(directory=DIST_DIR, html=True), name="static")
-
-# optional: ensure SPA routing works (react-router)
-# @app.get("/{full_path:path}")
-# def spa_fallback(full_path: str):
-#     return FileResponse(DIST_DIR / "index.html")
-
 # ---- CORS (Vite dev server) ----
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -159,3 +150,13 @@ def download(path: str, executed: int = 0):
         return FileResponse(executed_path, filename=Path(executed_path).name)
 
     return FileResponse(nb_path, filename=nb_path.name)
+
+DIST_DIR = (Path(__file__).parent / "dist").resolve()
+
+if DIST_DIR.exists():
+    app.mount("/", StaticFiles(directory=DIST_DIR, html=True), name="static")
+
+    # SPA fallback (so refresh / routes work)
+    @app.get("/{full_path:path}")
+    def spa_fallback(full_path: str):
+        return FileResponse(DIST_DIR / "index.html")

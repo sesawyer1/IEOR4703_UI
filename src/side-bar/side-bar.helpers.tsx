@@ -1,15 +1,7 @@
-import React, { useState } from "react";
-import ListSubheader from "@mui/material/ListSubheader";
-import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-
-import ChapterLoop from "./chapter-loop";
-import type { Chapter, ContentFile } from "../data.type";
+import type { ContentFile } from "../data.type";
 import ListItemIcon from "@mui/material/ListItemIcon";
 
 const prettyLabel = (s: string) =>
