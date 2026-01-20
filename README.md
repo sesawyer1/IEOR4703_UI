@@ -1,3 +1,11 @@
+# DEPLOYED WEBSITE
+
+```bash
+https://ieor4703-startercodes.onrender.com/
+```
+
+When a new commit is merged to main branch, Render automatically updates. 
+
 # RUNNING DEVELOPMENT
 
 Use 2 terminals: frontend and backend
