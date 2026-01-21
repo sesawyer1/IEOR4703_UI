@@ -1,13 +1,13 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from pathlib import Path
 import tempfile
 import nbformat
+import pandas as pd
 from nbclient import NotebookClient
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 
 app = FastAPI()
 
@@ -66,9 +66,42 @@ class ExecuteRequest(BaseModel):
     path: str
     timeout: int = 120  # seconds
 
+
 class ExecuteNotebookBody(BaseModel):
+    """
+    Execute an *edited* notebook (passed as JSON), but still use the folder of the
+    original notebook path as the working directory, so local sibling .py imports work.
+    """
     notebook: dict
+    path: str
     timeout: int = 120  # seconds
+
+
+def execute_nb_in_dir(nb, nb_dir: str, timeout: int):
+    """
+    Execute a notebook object cell-by-cell using nbclient, with a specific working dir.
+    Returns (executed_nb, run_error, last_cell_index).
+    """
+    client = NotebookClient(
+        nb,
+        timeout=timeout,
+        kernel_name="python3",
+        resources={"metadata": {"path": nb_dir}},  # ✅ cwd for execution
+    )
+
+    last_cell = -1
+    run_error = None
+
+    # ✅ Critical: start/stop kernel for execute_cell loop
+    try:
+        with client.setup_kernel():
+            for i, cell in enumerate(nb.cells):
+                last_cell = i
+                client.execute_cell(cell, i)
+    except Exception as e:
+        run_error = f"Error in cell {last_cell}: {e}"
+
+    return nb, run_error, last_cell
 
 
 @app.post("/api/execute")
@@ -79,34 +112,23 @@ def execute_notebook(req: ExecuteRequest):
 
     nb = nbformat.read(nb_path, as_version=4)
 
-    # Execute in an isolated temp working directory
-    with tempfile.TemporaryDirectory() as tmpdir:
-        client = NotebookClient(
-            nb,
-            timeout=req.timeout,
-            kernel_name="python3",
-            resources={"metadata": {"path": tmpdir}},
-        )
+    # ✅ run in notebook folder so sibling .py imports work
+    nb_dir = str(nb_path.parent)
 
-        try:
-            client.execute()
-            run_error = None
-        except Exception as e:
-            # Return partial outputs + error string
-            run_error = str(e)
+    nb, run_error, last_cell = execute_nb_in_dir(nb, nb_dir, req.timeout)
 
-        # Persist executed notebook for download (even if partial)
-        persistent_dir = Path(tempfile.gettempdir()) / "ieor4703_executed"
-        persistent_dir.mkdir(exist_ok=True)
+    # Persist executed notebook for download (even if partial)
+    persistent_dir = Path(tempfile.gettempdir()) / "ieor4703_executed"
+    persistent_dir.mkdir(exist_ok=True)
 
-        # Unique-ish name per notebook path
-        safe_name = req.path.replace("/", "__").replace("\\", "__")
-        executed_path = persistent_dir / f"{safe_name}__executed.ipynb"
-        nbformat.write(nb, executed_path)
+    safe_name = req.path.replace("/", "__").replace("\\", "__")
+    executed_path = persistent_dir / f"{safe_name}__executed.ipynb"
+    nbformat.write(nb, executed_path)
 
-        EXEC_CACHE[req.path] = str(executed_path)
+    EXEC_CACHE[req.path] = str(executed_path)
 
-        return {"notebook": nb, "error": run_error}
+    return {"notebook": nb, "error": run_error, "last_cell": last_cell}
+
 
 @app.post("/api/execute_nb")
 def execute_notebook_body(req: ExecuteNotebookBody):
@@ -116,31 +138,21 @@ def execute_notebook_body(req: ExecuteNotebookBody):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid notebook JSON: {e}")
 
-    with tempfile.TemporaryDirectory() as tmpdir:
-        client = NotebookClient(
-            nb,
-            timeout=req.timeout,
-            kernel_name="python3",
-            resources={"metadata": {"path": tmpdir}},
-        )
+    # Use the original notebook's folder as cwd
+    nb_path = safe_resolve(req.path)
+    if nb_path.suffix.lower() != ".ipynb":
+        raise HTTPException(status_code=400, detail="Not a .ipynb notebook")
 
-        try:
-            client.execute()
-            run_error = None
-        except Exception as e:
-            run_error = str(e)
+    nb_dir = str(nb_path.parent)
 
-        # NOTE: for edited notebooks, we return the executed notebook directly.
-        # Download can be handled client-side (downloadNotebook()).
-        return {"notebook": nb, "error": run_error}
+    nb, run_error, last_cell = execute_nb_in_dir(nb, nb_dir, req.timeout)
+
+    # For edited notebooks we return the executed notebook directly
+    return {"notebook": nb, "error": run_error, "last_cell": last_cell}
+
 
 @app.get("/api/download")
 def download(path: str, executed: int = 0):
-    """
-    Download original or last executed notebook.
-    executed=0 -> original file
-    executed=1 -> last executed output file (must have run at least once)
-    """
     nb_path = safe_resolve(path)
 
     if executed:
@@ -151,12 +163,58 @@ def download(path: str, executed: int = 0):
 
     return FileResponse(nb_path, filename=nb_path.name)
 
+@app.get("/api/data/preview")
+def preview_data(path: str, max_rows: int = 200):
+    """
+    Return a JSON preview of a CSV/XLSX: columns + first N rows.
+    """
+    file_path = safe_resolve(path)
+    ext = file_path.suffix.lower()
+
+    if ext not in [".csv", ".xlsx", ".xls"]:
+        raise HTTPException(status_code=400, detail="Not a CSV/XLSX file")
+
+    try:
+        if ext == ".csv":
+            # more robust for common CSV quirks
+            df = pd.read_csv(file_path)
+        else:
+            # .xlsx/.xls
+            df = pd.read_excel(file_path)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to read file: {e}")
+
+    df = df.head(max_rows)
+
+    # Replace NaNs with None for JSON
+    data = df.where(pd.notnull(df), None).to_dict(orient="records")
+
+    return {
+        "columns": list(df.columns),
+        "rows": data,
+        "total_preview_rows": len(df),
+        "truncated": len(df) >= max_rows,
+    }
+
+
+@app.get("/api/data/download")
+def download_data(path: str):
+    """
+    Download a CSV/XLSX file.
+    """
+    file_path = safe_resolve(path)
+    ext = file_path.suffix.lower()
+
+    if ext not in [".csv", ".xlsx", ".xls"]:
+        raise HTTPException(status_code=400, detail="Not a CSV/XLSX file")
+
+    return FileResponse(file_path, filename=file_path.name)
+
 DIST_DIR = (Path(__file__).parent / "dist").resolve()
 
 if DIST_DIR.exists():
     app.mount("/", StaticFiles(directory=DIST_DIR, html=True), name="static")
 
-    # SPA fallback (so refresh / routes work)
     @app.get("/{full_path:path}")
     def spa_fallback(full_path: str):
         return FileResponse(DIST_DIR / "index.html")

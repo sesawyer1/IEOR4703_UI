@@ -55,6 +55,7 @@ export default function NotebookApiViewer({ file }: { file: ContentFile }) {
   const [runError, setRunError] = useState<string | null>(null);
 
   const encodedPath = encodeURIComponent(file.path);
+  const [lastCell, setLastCell] = useState<number | null>(null);
 
   // Load notebook from backend when selected file changes
   useEffect(() => {
@@ -91,6 +92,7 @@ export default function NotebookApiViewer({ file }: { file: ContentFile }) {
   const runNotebook = async () => {
     setRunning(true);
     setRunError(null);
+    setLastCell(null);
 
     try {
       const isEditing = editMode && draftNb;
@@ -99,7 +101,7 @@ export default function NotebookApiViewer({ file }: { file: ContentFile }) {
         ? `${API_BASE}/api/execute_nb`
         : `${API_BASE}/api/execute`;
       const body = isEditing
-        ? { notebook: draftNb, timeout: 120 }
+        ? { notebook: draftNb, path: file.path, timeout: 120 }
         : { path: file.path, timeout: 120 };
 
       const r = await fetch(url, {
@@ -108,7 +110,12 @@ export default function NotebookApiViewer({ file }: { file: ContentFile }) {
         body: JSON.stringify(body),
       });
 
+      if (!r.ok) {
+        throw new Error(await r.text());
+      }
       const data = await r.json();
+      setLastCell(typeof data.last_cell === "number" ? data.last_cell : null);
+
 
       // Update view + draft to the executed result
       setNb(data.notebook);
@@ -249,6 +256,13 @@ export default function NotebookApiViewer({ file }: { file: ContentFile }) {
           </>
         )}
       </Stack>
+      {(running || lastCell !== null) && (
+        <Typography sx={{ opacity: 0.7, mb: 1 }}>
+          {running ? "Running…" : "Last run finished."}{" "}
+          {lastCell !== null ? `Last completed cell: ${lastCell + 1}` : ""}
+        </Typography>
+      )}
+
 
       {loading && <CircularProgress />}
       {loadError && (
@@ -268,3 +282,5 @@ export default function NotebookApiViewer({ file }: { file: ContentFile }) {
     </Box>
   );
 }
+
+
