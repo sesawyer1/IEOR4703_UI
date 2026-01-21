@@ -22,6 +22,7 @@ import { buildChapters } from "./content-index";
 import { filterChapters } from "./side-bar/search.helpers";
 import PythonApiViewer from "./python-api-viewer";
 import ImageApiViewer from "./image-api-viewer";
+import DataApiViewer from "./data-api-viewer.tsx";
 
 
 export default function App() {
@@ -176,6 +177,8 @@ export default function App() {
               <PythonApiViewer file={selectedFile} />
             ) : selectedFile.name.match(/\.(png|jpg|jpeg|gif|webp)$/i) ? (
               <ImageApiViewer file={selectedFile} />
+            ) : selectedFile.name.match(/\.(csv|xlsx|xls)$/i) ? (
+              <DataApiViewer file={selectedFile} />
             ) : (
               <Typography sx={{ opacity: 0.7 }}>
                 Selected file: {selectedFile.name}
