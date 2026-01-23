@@ -177,7 +177,7 @@ export default function App() {
               <PythonApiViewer file={selectedFile} />
             ) : selectedFile.name.match(/\.(png|jpg|jpeg|gif|webp)$/i) ? (
               <ImageApiViewer file={selectedFile} />
-            ) : selectedFile.name.match(/\.(csv|xlsx|xls)$/i) ? (
+            ) : selectedFile.name.match(/\.(csv|xlsx|xls|dat)$/i) ? (
               <DataApiViewer file={selectedFile} />
             ) : (
               <Typography sx={{ opacity: 0.7 }}>

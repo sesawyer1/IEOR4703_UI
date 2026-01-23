@@ -12,6 +12,13 @@ const RAW_GLOB = import.meta.glob(
   }
 ) as Record<string, string>;
 
+const DAT_GLOB = import.meta.glob(
+  "./content/**/*.dat", 
+  {
+  as: "raw",
+  eager: true,
+}) as Record<string, string>;
+
 /**
  * 2) Asset-like files we want as URLs (images, pdfs, etc.)
  */
@@ -65,6 +72,12 @@ export function buildChapters(): Chapter[] {
     if (shouldHidePath(fsPath)) continue;
     records.push({ fsPath, kind: "url", value: url });
   }
+
+  for (const [fsPath, data] of Object.entries(DAT_GLOB)) {
+    if (shouldHidePath(fsPath)) continue;
+    records.push({ fsPath, kind: "raw", value: data });
+  }
+
   // Insert records into the tree
   for (const rec of records) {
     // fsPath like "./content/Data/1.LCG/hist_example.ipynb"

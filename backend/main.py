@@ -205,7 +205,7 @@ def download_data(path: str):
     file_path = safe_resolve(path)
     ext = file_path.suffix.lower()
 
-    if ext not in [".csv", ".xlsx", ".xls"]:
+    if ext not in [".csv", ".xlsx", ".xls", ".dat"]:
         raise HTTPException(status_code=400, detail="Not a CSV/XLSX file")
 
     return FileResponse(file_path, filename=file_path.name)
