@@ -11,4 +11,4 @@ pandas
 openpyxl
 scikit-learn
 tensorflow
-scipy.stats
+scipy
